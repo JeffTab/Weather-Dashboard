@@ -19,18 +19,27 @@ h1{
     font-size: 4em;
 }
 
-.flex-container {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
+.grid-container {
+   display: grid;
+   grid-template-columns: 25% 75%;
   }
 
-  .flex-column{
+
+  @media only screen and (max-width: 651px) {
+          .grid-container{
+              display: flex;
+          }}
+
+  .flex-column-left{
 
     display: flex;
     flex-direction: column;
-    max-width: 20%;
     padding: 15px;
+  }
+  .flex-column-right{
+      display: flex;
+      flex-direction: column;
+     
   }
 
   h3{
@@ -66,3 +75,27 @@ h1{
     font-weight: bold;
     
   }
+
+  .right-side-box{
+      border: 1.6px solid rgb(175, 175, 211);
+      margin: 15px;
+      display: flex;
+      flex-direction: column;
+  }
+  
+  
+ #title-box {
+      display: flex;
+      flex-direction: row;
+      padding-left: 15px;
+  }
+
+  h2{
+      font-size: 1.75em;
+  }
+
+  p{
+      margin: 0 0 15px 15px;
+      font-weight: 500;
+      font-size: 1.25em;  }
+  

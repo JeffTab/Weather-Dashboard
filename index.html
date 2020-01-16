@@ -14,19 +14,23 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <div class="flex-container">
-        <div class="flex-column">
+    <div class="grid-container">
+        <div class="flex-column-left">
             <h3>Search by City:</h3>
             <form id="search-form">
                 <input type="text" id="search-input" placeholder="Search.." onfocus="this.value=''">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
             <div id="city-list">
-
             </div>
+        </div>
+        <div id="right-column" class="flex-column-right">
+
         </div>
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/js/moment.min.js"></script>
     <script src="./assets/js/script.js">
     </script>
 </body>
