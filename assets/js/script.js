@@ -27,11 +27,11 @@ function printCities(name) {
 
     listItem.innerText = name;
     cityList.prepend(listItem);
-    $(".cityBox").on("click", function (event) {
+    // $(".cityBox").on("click", function (event) {
 
-        console.log(event.target.innerText);
-        callSearch(event.target.innerText);
-    });
+    //     console.log(event.target.innerText);
+    //     callSearch(event.target.innerText);
+    // });
 
 };
 
