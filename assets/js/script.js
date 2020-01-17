@@ -26,10 +26,11 @@ function printCities(name) {
     listItem.setAttribute("class", "cityBox");
     listItem.innerText = name;
     cityList.prepend(listItem);
-    $(".cityBox").on("click", function (event) {
+    // $(".cityBox").on("click", function (event) {
 
-        console.log(event.target.innerText[0]);
-    });
+    //     console.log(event.target.innerText);
+    //     callSearch(event.target.innerText);
+    // });
 
 };
 
@@ -43,14 +44,22 @@ function UVIndex() {
         .then(function (response) {
             console.log(response);
             console.log(response.value);
-            return response.value;
+            uvFunction(response.value);
         });
 };
 
+function uvFunction(response) {
+    var currentUV = document.createElement("p");
+    currentUV.setAttribute("class", "currentDayPTag");
+    uvValue = UVIndex();
+    console.log(uvValue);
+    currentUV.innerText = uvValue;
+    currentWeatherBox.append(currentUV);
+};
+
+
+
 function currentWeather(response) {
-    console.log(response);
-
-
 
     var currentWeatherBox = document.createElement("div");
     currentWeatherBox.setAttribute("class", "right-side-box");
@@ -60,12 +69,15 @@ function currentWeather(response) {
     title.innerText = response.name + " (" + currentDate + ") ";
 
     var currentTemperature = document.createElement("p");
+    currentTemperature.setAttribute("class", "currentDayPTag");
     currentTemperature.innerHTML = "Temperature: " + response.main.temp + "&#8457";
 
     var currentHumidity = document.createElement("p");
+    currentHumidity.setAttribute("class", "currentDayPTag");
     currentHumidity.innerText = "Humidity: " + response.main.humidity + "%";
 
     var currentWindSpeed = document.createElement("p");
+    currentWindSpeed.setAttribute("class", "currentDayPTag");
     currentWindSpeed.innerText = "Wind Speed: " + response.wind.speed;
 
     var icon = document.createElement("img");
@@ -80,10 +92,6 @@ function currentWeather(response) {
     longitude = response.coord.lon;
     latitude = response.coord.lat;
 
-    var currentUV = document.createElement("p");
-    uvValue = UVIndex();
-    console.log(uvValue);
-    currentUV.innerText = uvValue;
 
     titleBox.append(title);
     titleBox.append(icon);
@@ -91,13 +99,52 @@ function currentWeather(response) {
     currentWeatherBox.append(currentTemperature);
     currentWeatherBox.append(currentHumidity);
     currentWeatherBox.append(currentWindSpeed);
-    currentWeatherBox.append(currentUV);
-    rightColumn.append(currentWeatherBox);
 
+    rightColumn.append(currentWeatherBox);
+};
+
+
+
+function printFiveDay(fiveDayArr) {
+
+    var fiveDayBox = document.createElement("div");
+    fiveDayBox.setAttribute("class", "five-week");
+
+    for (i = 0; i < fiveDayArr.length; i++) {
+
+
+        var blueBox = document.createElement("div");
+        blueBox.setAttribute("class", "blue-box");
+        var dateLine = document.createElement("p");
+        dateLine.setAttribute("class", "fiveDayPTag");
+        var futureDay = moment(new Date()).add(i + 1, 'days').format("MM/D/YYYY");
+        dateLine.innerText = futureDay;
+
+        var icon = document.createElement("img");
+        icon.setAttribute("id", "weatherIcon");
+        var iconcode = fiveDayArr[i].weather[0].icon;
+        var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+        icon.setAttribute("src", iconurl);
+
+        var futureTemperature = document.createElement("p");
+        futureTemperature.setAttribute("class", "fiveDayPTag");
+        futureTemperature.innerHTML = "Temperature: " + fiveDayArr[0].main.temp + "&#8457";
+
+        var futureHumidity = document.createElement("p");
+        futureHumidity.setAttribute("class", "fiveDayPTag");
+        futureHumidity.innerText = "Humidity: " + fiveDayArr[0].main.humidity + "%";
+
+        blueBox.append(dateLine);
+        blueBox.append(icon);
+        blueBox.append(futureTemperature);
+        blueBox.append(futureHumidity);
+        fiveDayBox.append(blueBox);
+        rightColumn.append(fiveDayBox);
+
+    };
 
 
 };
-
 
 function callSearch(searchTerm) {
 
@@ -110,8 +157,9 @@ function callSearch(searchTerm) {
         method: "GET"
     })
         .then(function (response) {
-
+            console.log(response);
             printCities(response.name);
+
             currentWeather(response);
 
         });
@@ -127,7 +175,7 @@ function fiveDayforecast(searchTerm) {
         method: "GET"
     })
         .then(function (weatherResponse) {
-            console.log(weatherResponse);
+
             var fiveDayArr = weatherResponse.list.filter(function (weatherObj) {
                 if (weatherObj.dt_txt.includes('06:00:00')) {
                     return true;
@@ -136,17 +184,9 @@ function fiveDayforecast(searchTerm) {
                     return false;
                 }
             });
-            console.log(fiveDayArr);
+
             printFiveDay(fiveDayArr);
         });
 };
 searchForm.addEventListener("submit", formSubmit);
 
-
-
-function printFiveDay(fiveDayArr) {
-
-    console.log(fiveDayArr);
-
-
-};
