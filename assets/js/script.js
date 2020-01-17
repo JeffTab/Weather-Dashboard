@@ -4,7 +4,7 @@ var cityList = document.getElementById("city-list");
 var rightColumn = document.getElementById("right-column");
 var latitude;
 var longitude;
-var APIKey = "4089f4064051788f3dc75b639c3e0619";
+var APIKey = "166a433c57516f51dfab1f7edaed8413";
 var uvValue = 0;
 
 
@@ -24,38 +24,39 @@ function printCities(name) {
 
     var listItem = document.createElement("div");
     listItem.setAttribute("class", "cityBox");
+
     listItem.innerText = name;
     cityList.prepend(listItem);
-    // $(".cityBox").on("click", function (event) {
+    $(".cityBox").on("click", function (event) {
 
-    //     console.log(event.target.innerText);
-    //     callSearch(event.target.innerText);
-    // });
+        console.log(event.target.innerText);
+        callSearch(event.target.innerText);
+    });
 
 };
 
-function UVIndex() {
+// function UVIndex() {
 
-    var queryURLUV = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey;
-    $.ajax({
-        url: queryURLUV,
-        method: "GET"
-    })
-        .then(function (response) {
-            console.log(response);
-            console.log(response.value);
-            uvFunction(response.value);
-        });
-};
+//     var queryURLUV = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey;
+//     $.ajax({
+//         url: queryURLUV,
+//         method: "GET"
+//     })
+//         .then(function (response) {
+//             console.log(response);
+//             console.log(response.value);
+//             uvFunction(response.value);
+//         });
+// };
 
-function uvFunction(response) {
-    var currentUV = document.createElement("p");
-    currentUV.setAttribute("class", "currentDayPTag");
-    uvValue = UVIndex();
-    console.log(uvValue);
-    currentUV.innerText = uvValue;
-    currentWeatherBox.append(currentUV);
-};
+// function uvFunction(response) {
+//     var currentUV = document.createElement("p");
+//     currentUV.setAttribute("class", "currentDayPTag");
+//     uvValue = UVIndex();
+//     console.log(uvValue);
+//     currentUV.innerText = uvValue;
+//     currentWeatherBox.append(currentUV);
+// };
 
 
 
@@ -128,11 +129,11 @@ function printFiveDay(fiveDayArr) {
 
         var futureTemperature = document.createElement("p");
         futureTemperature.setAttribute("class", "fiveDayPTag");
-        futureTemperature.innerHTML = "Temperature: " + fiveDayArr[0].main.temp + "&#8457";
+        futureTemperature.innerHTML = "Temperature: " + fiveDayArr[i].main.temp + "&#8457";
 
         var futureHumidity = document.createElement("p");
         futureHumidity.setAttribute("class", "fiveDayPTag");
-        futureHumidity.innerText = "Humidity: " + fiveDayArr[0].main.humidity + "%";
+        futureHumidity.innerText = "Humidity: " + fiveDayArr[i].main.humidity + "%";
 
         blueBox.append(dateLine);
         blueBox.append(icon);
@@ -175,6 +176,7 @@ function fiveDayforecast(searchTerm) {
         method: "GET"
     })
         .then(function (weatherResponse) {
+            console.log(weatherResponse);
 
             var fiveDayArr = weatherResponse.list.filter(function (weatherObj) {
                 if (weatherObj.dt_txt.includes('06:00:00')) {
